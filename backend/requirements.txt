@@ -1,4 +1,4 @@
-statsmodels==0.13.0
+statsmodels.=0.13.0
 matplotlib==3.4.3
 python-multipart==0.0.20
 numpy>=1.26
