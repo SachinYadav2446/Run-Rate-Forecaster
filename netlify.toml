@@ -1,6 +1,6 @@
 [build]
   base = "frontend"
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
   publish = "dist"
 
 [[redirects]]
@@ -13,6 +13,3 @@
   for = "/assets/*.js"
   [headers.values]
     Content-Type = "application/javascript; charset=utf-8"
-
-[context.production.environment]
-  NODE_VERSION = "22"
