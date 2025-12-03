@@ -1,0 +1,31 @@
+[build]
+  # Netlify will run the build command from the "frontend" base dir below
+  base = "frontend"
+  command = "npm ci && npm run build"
+  publish = "frontend/dist"
+
+# Ensure SPA routing (fallback to index.html)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
+# Ensure JS modules are served with the correct MIME type
+[[headers]]
+  # Adjust path pattern if your assets live under /assets or /static
+  for = "/assets/*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+
+# Optional: If you intentionally upload precompressed files (.gz) and want them served:
+# Uncomment only if your CI actually uploads .gz files
+# [[headers]]
+#   for = "/assets/*.js"
+#   [headers.values]
+#     Content-Encoding = "gzip"
+#     Content-Type = "application/javascript; charset=utf-8"
+
+# Build environment Node version (optional but recommended)
+[context.production.environment]
+  NODE_VERSION = "22"
