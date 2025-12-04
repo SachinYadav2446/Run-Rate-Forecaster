@@ -63,9 +63,17 @@ const CSVUpload = ({ setForecastResult, setLoading, loading }) => {
       const formData = new FormData();
       formData.append('file', file);
 
+      // Helper function to join URLs properly
+      const joinUrls = (base, path) => {
+        // Remove trailing slash from base and leading slash from path
+        const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base;
+        const cleanPath = path.startsWith('/') ? path : '/' + path;
+        return cleanBase + cleanPath;
+      };
+
       // Use the backend URL from environment variables
       const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-      const url = `${baseUrl}/upload-csv?forecast_steps=${forecastSteps}&use_grid_search=${useGridSearch}`;
+      const url = `${joinUrls(baseUrl, 'upload-csv')}?forecast_steps=${forecastSteps}&use_grid_search=${useGridSearch}`;
 
       const response = await axios.post(
         url,

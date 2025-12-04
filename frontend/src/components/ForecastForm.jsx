@@ -85,11 +85,19 @@ const ForecastForm = ({ setForecastResult, setLoading, loading }) => {
         forecast_steps: parseInt(forecastSteps)
       };
 
+      // Helper function to join URLs properly
+      const joinUrls = (base, path) => {
+        // Remove trailing slash from base and leading slash from path
+        const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base;
+        const cleanPath = path.startsWith('/') ? path : '/' + path;
+        return cleanBase + cleanPath;
+      };
+
       // Determine which endpoint to use
       const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
       const endpoint = useGridSearch 
-        ? `${baseUrl}/forecast-with-grid-search` 
-        : `${baseUrl}/forecast`;
+        ? joinUrls(baseUrl, 'forecast-with-grid-search') 
+        : joinUrls(baseUrl, 'forecast');
 
       const response = await axios.post(endpoint, payload);
       
