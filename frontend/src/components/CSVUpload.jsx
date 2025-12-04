@@ -62,26 +62,20 @@ const CSVUpload = ({ setForecastResult, setLoading, loading }) => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const API_BASE =
-      import.meta.env.MODE === "development"
-        ? "/api"
-        : (import.meta.env.VITE_API_URL || "");
-            
 
+      // Use the backend URL from environment variables
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+      const url = `${baseUrl}/upload-csv?forecast_steps=${forecastSteps}&use_grid_search=${useGridSearch}`;
 
       const response = await axios.post(
-        `${API_BASE}/upload-csv?forecast_steps=${forecastSteps}&use_grid_search=${useGridSearch}`,
+        url,
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         }
-        );
-
-// Determine which endpoint to use
-const endpoint = useGridSearch
-  ? `${API_BASE}/forecast-with-grid-search`
-  : `${API_BASE}/forecast`;
-
+      );
       
       setForecastResult(response.data);
       setToast({ message: 'Forecast generated successfully! 🎉', type: 'success' });

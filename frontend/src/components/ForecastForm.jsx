@@ -86,20 +86,15 @@ const ForecastForm = ({ setForecastResult, setLoading, loading }) => {
       };
 
       // Determine which endpoint to use
-      const API_BASE =
-  import.meta.env.MODE === "development"
-    ? "/api"
-    : (import.meta.env.VITE_API_URL || "");
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+      const endpoint = useGridSearch 
+        ? `${baseUrl}/forecast-with-grid-search` 
+        : `${baseUrl}/forecast`;
 
-const endpoint = useGridSearch
-  ? `${API_BASE}/forecast-with-grid-search`
-  : `${API_BASE}/forecast`;
-
-const response = await axios.post(endpoint, payload);
-      
+      const response = await axios.post(endpoint, payload);
       
       setForecastResult(response.data);
-      setToast({ message: 'Forecast generated successfully! \ud83c\udf89', type: 'success' });
+      setToast({ message: 'Forecast generated successfully! 🎉', type: 'success' });
     } catch (err) {
       const errorMsg = err.response?.data?.detail || 'Failed to get forecast. Please check your data and try again.';
       setToast({ message: errorMsg, type: 'error' });

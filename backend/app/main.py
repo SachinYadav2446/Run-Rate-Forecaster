@@ -27,7 +27,7 @@ app = FastAPI(
 
 # Add CORS middleware
 app.add_middleware(
-    CORSMiddleware,
+    CORSMiddleware, #cross origin resource helps sharing middleware to frontend as both runs on diff ports.
     allow_origins=["*"],  # In production, replace with specific origins
     allow_credentials=True,
     allow_methods=["*"],
@@ -116,7 +116,7 @@ async def forecast_time_series(input_data: TimeSeriesInput):
             plot=plot_base64
         )
         
-        return result
+        return result 
         
     except Exception as e:
         logger.error(f"Forecasting failed: {str(e)}")
